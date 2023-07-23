@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">translator</string>
+    <string name="title_activity_main">MainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="reload_text">Reload</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_option_title">search</string>
+    <string name="empty_server_response_on_success">Response from server is empty</string>
+    <string name="undefined_error">Undefined error</string>
+</resources>
