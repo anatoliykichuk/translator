@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitClient : IDataSource<List<DataModel>> {
 
     override fun getData(word: String): Observable<List<DataModel>> {
-        TODO("Not yet implemented")
+        return getService(BaseInterceptor.interceptor).search(word)
     }
 
     private fun getService(interceptor: Interceptor): IApiService {

@@ -9,6 +9,6 @@ class RepositoryLocal(
 ) : IRepository<List<DataModel>> {
 
     override fun getData(word: String): Observable<List<DataModel>> {
-        TODO("Not yet implemented")
+        return dataSource.getData(word)
     }
 }
