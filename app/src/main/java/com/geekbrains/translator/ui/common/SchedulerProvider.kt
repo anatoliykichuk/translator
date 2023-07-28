@@ -1,4 +1,4 @@
-package com.geekbrains.translator.ui.presenter
+package com.geekbrains.translator.ui.common
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler

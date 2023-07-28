@@ -3,25 +3,30 @@ package com.geekbrains.translator.ui.view.main
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geekbrains.translator.R
 import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.databinding.ActivityMainBinding
 import com.geekbrains.translator.ui.common.AppState
 import com.geekbrains.translator.ui.common.BaseActivity
-import com.geekbrains.translator.ui.common.IView
-import com.geekbrains.translator.ui.presenter.IPresenter
-import com.geekbrains.translator.ui.presenter.MainPresenter
 import com.geekbrains.translator.ui.view.adapters.MainAdapter
 import com.geekbrains.translator.ui.view.pages.SearchDialogFragment
 
 class MainActivity : BaseActivity<AppState>() {
 
+    override val viewModel: MainViewModel by lazy {
+        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
+    }
+
+    private val observer = Observer<AppState> { renderData(it) }
+
+    private var adapter: MainAdapter? = null
+
     private var _binding: ActivityMainBinding? = null
     private val binding
         get() = _binding!!
-
-    private var adapter: MainAdapter? = null
 
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
@@ -43,7 +48,8 @@ class MainActivity : BaseActivity<AppState>() {
             searchDialogFragment.setOnSearchClickListener(
                 object : SearchDialogFragment.OnSearchClickListener {
                     override fun onClick(word: String) {
-                        presenter.getData(word, true)
+                        viewModel.getData(word, true)
+                            .observe(this@MainActivity, observer)
                     }
                 }
             )
@@ -55,8 +61,6 @@ class MainActivity : BaseActivity<AppState>() {
         super.onDestroy()
         _binding = null
     }
-
-    override fun createPresenter(): IPresenter<AppState, IView> = MainPresenter()
 
     override fun renderData(appState: AppState) {
         when (appState) {
@@ -105,7 +109,7 @@ class MainActivity : BaseActivity<AppState>() {
 
         binding.error.text = error ?: getString(R.string.undefined_error)
         binding.reload.setOnClickListener {
-            presenter.getData("hi", true)
+            viewModel.getData("hi", true).observe(this, observer)
         }
     }
 
