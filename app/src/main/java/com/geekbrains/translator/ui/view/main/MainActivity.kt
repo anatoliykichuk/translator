@@ -13,12 +13,14 @@ import com.geekbrains.translator.ui.common.AppState
 import com.geekbrains.translator.ui.common.BaseActivity
 import com.geekbrains.translator.ui.view.adapters.MainAdapter
 import com.geekbrains.translator.ui.view.pages.SearchDialogFragment
+import dagger.android.AndroidInjection
+import javax.inject.Inject
 
 class MainActivity : BaseActivity<AppState>() {
 
-    override val viewModel: MainViewModel by lazy {
-        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
-    }
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+    override lateinit var viewModel: MainViewModel
 
     private val observer = Observer<AppState> { renderData(it) }
 
@@ -38,10 +40,17 @@ class MainActivity : BaseActivity<AppState>() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
+
         super.onCreate(savedInstanceState)
 
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = viewModelFactory.create(MainViewModel::class.java)
+        viewModel.subscribe().observe(
+            this@MainActivity, Observer<AppState> { renderData(it) }
+        )
 
         binding.searchButton.setOnClickListener {
             val searchDialogFragment = SearchDialogFragment.newInstance()
