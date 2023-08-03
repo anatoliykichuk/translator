@@ -1,4 +1,4 @@
-package com.geekbrains.translator.di
+package com.geekbrains.translator.di.dagger
 
 import android.app.Application
 import com.geekbrains.translator.TranslatorApp

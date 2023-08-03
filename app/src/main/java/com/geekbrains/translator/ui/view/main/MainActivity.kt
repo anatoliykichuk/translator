@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geekbrains.translator.R
 import com.geekbrains.translator.data.model.DataModel
@@ -13,13 +12,10 @@ import com.geekbrains.translator.ui.common.AppState
 import com.geekbrains.translator.ui.common.BaseActivity
 import com.geekbrains.translator.ui.view.adapters.MainAdapter
 import com.geekbrains.translator.ui.view.pages.SearchDialogFragment
-import dagger.android.AndroidInjection
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<AppState>() {
 
-    @Inject
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
     override lateinit var viewModel: MainViewModel
 
     private val observer = Observer<AppState> { renderData(it) }
@@ -40,30 +36,13 @@ class MainActivity : BaseActivity<AppState>() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
-
         super.onCreate(savedInstanceState)
 
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = viewModelFactory.create(MainViewModel::class.java)
-        viewModel.subscribe().observe(
-            this@MainActivity, Observer<AppState> { renderData(it) }
-        )
-
-        binding.searchButton.setOnClickListener {
-            val searchDialogFragment = SearchDialogFragment.newInstance()
-            searchDialogFragment.setOnSearchClickListener(
-                object : SearchDialogFragment.OnSearchClickListener {
-                    override fun onClick(word: String) {
-                        viewModel.getData(word, true)
-                            .observe(this@MainActivity, observer)
-                    }
-                }
-            )
-            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
-        }
+        initViews()
+        initViewModel()
     }
 
     override fun onDestroy() {
@@ -85,11 +64,7 @@ class MainActivity : BaseActivity<AppState>() {
                     showViewSuccess()
 
                     if (adapter == null) {
-                        binding.translations.layoutManager =
-                            LinearLayoutManager(applicationContext)
-
-                        binding.translations.adapter =
-                            MainAdapter(onListItemClickListener, dataModel)
+                        adapter = MainAdapter(onListItemClickListener, dataModel)
                     } else {
                         adapter!!.setData(dataModel)
                     }
@@ -111,6 +86,37 @@ class MainActivity : BaseActivity<AppState>() {
                 showErrorScreen(appState.error.message)
             }
         }
+    }
+
+    private fun initViewModel() {
+        if (binding.translations.adapter != null) {
+            throw IllegalStateException("The ViewModel should be initialised first")
+        }
+
+        val _viewModel: MainViewModel by viewModel()
+        viewModel = _viewModel
+        viewModel.subscribe().observe(
+            this@MainActivity, Observer<AppState> { renderData(it) }
+        )
+    }
+
+    private fun initViews() {
+        binding.searchButton.setOnClickListener {
+            val searchDialogFragment = SearchDialogFragment.newInstance()
+
+            searchDialogFragment.setOnSearchClickListener(
+                object : SearchDialogFragment.OnSearchClickListener {
+                    override fun onClick(word: String) {
+                        viewModel.getData(word, true)
+                            .observe(this@MainActivity, observer)
+                    }
+                }
+            )
+            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
+        }
+
+        binding.translations.layoutManager = LinearLayoutManager(applicationContext)
+        binding.translations.adapter = adapter
     }
 
     private fun showErrorScreen(error: String?) {
