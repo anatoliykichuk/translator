@@ -1,8 +1,10 @@
-package com.geekbrains.translator.di
+package com.geekbrains.translator.di.dagger
 
 import com.geekbrains.translator.data.inteactor.MainInteractor
 import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.data.repository.IRepository
+import com.geekbrains.translator.di.REPOSITORY_NAME_LOCAL
+import com.geekbrains.translator.di.REPOSITORY_NAME_REMOTE
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named

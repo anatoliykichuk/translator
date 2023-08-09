@@ -1,4 +1,4 @@
-package com.geekbrains.translator.di
+package com.geekbrains.translator.di.dagger
 
 import com.geekbrains.translator.ui.view.main.MainActivity
 import dagger.Module

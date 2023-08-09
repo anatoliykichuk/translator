@@ -1,4 +1,4 @@
-package com.geekbrains.translator.di
+package com.geekbrains.translator.di.dagger
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey
