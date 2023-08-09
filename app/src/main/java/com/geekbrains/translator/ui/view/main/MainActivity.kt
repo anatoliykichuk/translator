@@ -2,29 +2,37 @@ package com.geekbrains.translator.ui.view.main
 
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geekbrains.translator.R
+import com.geekbrains.translator.data.inteactor.MainInteractor
 import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.databinding.ActivityMainBinding
 import com.geekbrains.translator.ui.common.AppState
 import com.geekbrains.translator.ui.common.BaseActivity
+import com.geekbrains.translator.ui.common.isOnline
 import com.geekbrains.translator.ui.view.adapters.MainAdapter
 import com.geekbrains.translator.ui.view.pages.SearchDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity<AppState>() {
-
-    override lateinit var viewModel: MainViewModel
-
-    private val observer = Observer<AppState> { renderData(it) }
-
-    private var adapter: MainAdapter? = null
+class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding
         get() = _binding!!
+
+    override lateinit var viewModel: MainViewModel
+
+    private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
+
+    private val searchClickListener: View.OnClickListener = View.OnClickListener {
+        val searchDialogFragment = SearchDialogFragment.newInstance()
+
+        searchDialogFragment.setOnSearchClickListener(onSearchClickListener)
+        searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
+    }
 
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
@@ -35,14 +43,27 @@ class MainActivity : BaseActivity<AppState>() {
             }
         }
 
+    private val onSearchClickListener: SearchDialogFragment.OnSearchClickListener =
+        object : SearchDialogFragment.OnSearchClickListener {
+            override fun onClick(word: String) {
+                isNetworkAvailable = isOnline(applicationContext)
+
+                if (isNetworkAvailable) {
+                    viewModel.getData(word, isNetworkAvailable)
+                } else {
+                    showViewError()
+                }
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initViews()
         initViewModel()
+        initViews()
     }
 
     override fun onDestroy() {
@@ -54,20 +75,17 @@ class MainActivity : BaseActivity<AppState>() {
         when (appState) {
 
             is AppState.Success -> {
+                showViewLoading()
+
                 val dataModel = appState.data
 
-                if (dataModel == null || dataModel.isEmpty()) {
+                if (dataModel.isNullOrEmpty()) {
                     showErrorScreen(
                         getString(R.string.empty_server_response_on_success)
                     )
                 } else {
                     showViewSuccess()
-
-                    if (adapter == null) {
-                        adapter = MainAdapter(onListItemClickListener, dataModel)
-                    } else {
-                        adapter!!.setData(dataModel)
-                    }
+                    adapter!!.setData(dataModel)
                 }
             }
 
@@ -76,9 +94,9 @@ class MainActivity : BaseActivity<AppState>() {
 
                 binding.progress.visibility =
                     if (appState.progress != null) {
-                        View.VISIBLE
+                        VISIBLE
                     } else {
-                        View.GONE
+                        GONE
                     }
             }
 
@@ -96,25 +114,12 @@ class MainActivity : BaseActivity<AppState>() {
         val _viewModel: MainViewModel by viewModel()
         viewModel = _viewModel
         viewModel.subscribe().observe(
-            this@MainActivity, Observer<AppState> { renderData(it) }
+            this@MainActivity, { renderData(it) }
         )
     }
 
     private fun initViews() {
-        binding.searchButton.setOnClickListener {
-            val searchDialogFragment = SearchDialogFragment.newInstance()
-
-            searchDialogFragment.setOnSearchClickListener(
-                object : SearchDialogFragment.OnSearchClickListener {
-                    override fun onClick(word: String) {
-                        viewModel.getData(word, true)
-                            .observe(this@MainActivity, observer)
-                    }
-                }
-            )
-            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
-        }
-
+        binding.searchButton.setOnClickListener { searchClickListener }
         binding.translations.layoutManager = LinearLayoutManager(applicationContext)
         binding.translations.adapter = adapter
     }
@@ -124,26 +129,26 @@ class MainActivity : BaseActivity<AppState>() {
 
         binding.error.text = error ?: getString(R.string.undefined_error)
         binding.reload.setOnClickListener {
-            viewModel.getData("hi", true).observe(this, observer)
+            viewModel.getData("hi", true)
         }
     }
 
     private fun showViewSuccess() {
-        binding.successGroup.visibility = View.VISIBLE
-        binding.loadingGroup.visibility = View.GONE
-        binding.errorGroup.visibility = View.GONE
+        binding.successGroup.visibility = VISIBLE
+        binding.loadingGroup.visibility = GONE
+        binding.errorGroup.visibility = GONE
     }
 
     private fun showViewLoading() {
-        binding.successGroup.visibility = View.GONE
-        binding.loadingGroup.visibility = View.VISIBLE
-        binding.errorGroup.visibility = View.GONE
+        binding.successGroup.visibility = GONE
+        binding.loadingGroup.visibility = VISIBLE
+        binding.errorGroup.visibility = GONE
     }
 
     private fun showViewError() {
-        binding.successGroup.visibility = View.GONE
-        binding.loadingGroup.visibility = View.GONE
-        binding.errorGroup.visibility = View.VISIBLE
+        binding.successGroup.visibility = GONE
+        binding.loadingGroup.visibility = GONE
+        binding.errorGroup.visibility = VISIBLE
     }
 
     companion object {

@@ -9,9 +9,10 @@ import com.geekbrains.translator.R
 import com.geekbrains.translator.data.model.DataModel
 
 class MainAdapter(
-    private var onListItemClickListener: OnListItemClickListener,
-    private var data: List<DataModel>
+    private var onListItemClickListener: OnListItemClickListener
 ) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+
+    private var data: List<DataModel> = arrayListOf()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 

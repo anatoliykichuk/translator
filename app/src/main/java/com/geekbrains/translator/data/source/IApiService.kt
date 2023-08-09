@@ -1,12 +1,12 @@
 package com.geekbrains.translator.data.source
 
 import com.geekbrains.translator.data.model.DataModel
-import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface IApiService {
 
     @GET("word/search")
-    fun search(@Query("search") wordToSearch: String): Observable<List<DataModel>>
+    fun searchAsync(@Query("search") wordToSearch: String): Deferred<List<DataModel>>
 }
