@@ -1,19 +1,19 @@
 package com.geekbrains.translator.ui.view.main
 
 import android.os.Bundle
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geekbrains.translator.R
-import com.geekbrains.translator.data.inteactor.MainInteractor
 import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.databinding.ActivityMainBinding
+import com.geekbrains.translator.domain.inteactor.MainInteractor
 import com.geekbrains.translator.ui.common.AppState
 import com.geekbrains.translator.ui.common.BaseActivity
+import com.geekbrains.translator.ui.common.convertMeaningsToString
 import com.geekbrains.translator.ui.common.isOnline
 import com.geekbrains.translator.ui.view.adapters.MainAdapter
+import com.geekbrains.translator.ui.view.pages.DescriptionActivity
 import com.geekbrains.translator.ui.view.pages.SearchDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,32 +27,17 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
 
-    private val searchClickListener: View.OnClickListener = View.OnClickListener {
-        val searchDialogFragment = SearchDialogFragment.newInstance()
-
-        searchDialogFragment.setOnSearchClickListener(onSearchClickListener)
-        searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
-    }
-
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
             override fun onItemClick(dataItem: DataModel) {
-                Toast.makeText(
-                    this@MainActivity, dataItem.text, Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-
-    private val onSearchClickListener: SearchDialogFragment.OnSearchClickListener =
-        object : SearchDialogFragment.OnSearchClickListener {
-            override fun onClick(word: String) {
-                isNetworkAvailable = isOnline(applicationContext)
-
-                if (isNetworkAvailable) {
-                    viewModel.getData(word, isNetworkAvailable)
-                } else {
-                    showViewError()
-                }
+                startActivity(
+                    DescriptionActivity.getIntent(
+                        this@MainActivity,
+                        dataItem.text!!,
+                        convertMeaningsToString(dataItem.meanings!!),
+                        dataItem.meanings[0].imageUrl!!
+                    )
+                )
             }
         }
 
@@ -119,9 +104,31 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     }
 
     private fun initViews() {
-        binding.searchButton.setOnClickListener { searchClickListener }
+        initSearchClickListener()
+
         binding.translations.layoutManager = LinearLayoutManager(applicationContext)
         binding.translations.adapter = adapter
+    }
+
+    private fun initSearchClickListener() {
+        binding.openSearchDialogButton.setOnClickListener {
+            val searchDialogFragment = SearchDialogFragment.newInstance()
+
+            searchDialogFragment.setOnSearchClickListener(
+                object : SearchDialogFragment.OnSearchClickListener {
+                    override fun onClick(word: String) {
+                        isNetworkAvailable = isOnline(applicationContext)
+
+                        if (isNetworkAvailable) {
+                            viewModel.getData(word, isNetworkAvailable)
+                        } else {
+                            showViewError()
+                        }
+                    }
+                }
+            )
+            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
+        }
     }
 
     private fun showErrorScreen(error: String?) {

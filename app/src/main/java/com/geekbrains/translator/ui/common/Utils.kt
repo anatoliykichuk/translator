@@ -3,6 +3,8 @@ package com.geekbrains.translator.ui.common
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import androidx.appcompat.app.AlertDialog
+import com.geekbrains.translator.R
 import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.data.model.Meanings
 
@@ -49,6 +51,31 @@ fun convertMeaningsToString(meanings: List<Meanings>): String {
     return meaningsSeparatedByComma
 }
 
+fun getAlertDialog(context: Context, title: String?, message: String?): AlertDialog {
+    val builder = AlertDialog.Builder(context)
+
+    builder.setTitle(
+        if (title.isNullOrBlank()) {
+            context.getString(R.string.description_text)
+        } else {
+            title
+        }
+    )
+
+    if (!message.isNullOrBlank()) {
+        builder.setMessage(message)
+    }
+
+    builder.setCancelable(true)
+    builder.setPositiveButton(R.string.dialog_button_cancel) { dialog, _ -> dialog.dismiss() }
+
+    return builder.create()
+}
+
+fun getStubAlertDialog(context: Context): AlertDialog {
+    return getAlertDialog(context, null, null)
+}
+
 private fun parseResult(dataModel: DataModel, newDataModels: ArrayList<DataModel>) {
     if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
         val newMeanings = arrayListOf<Meanings>()
@@ -64,4 +91,3 @@ private fun parseResult(dataModel: DataModel, newDataModels: ArrayList<DataModel
         }
     }
 }
-

@@ -16,13 +16,15 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/search_option_title"
+            android:id="@+id/start_search_by_option_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/search_button_margin"
             android:layout_marginEnd="@dimen/search_button_margin"
-            android:text="@string/search_option_title" />
+            android:drawableStart="@drawable/ic_search"
+            android:text="@string/search_button_text"
+            android:textSize="@dimen/search_button_text_size" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -42,7 +44,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/clear_search_option"
+                android:id="@+id/clear_search_option_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"

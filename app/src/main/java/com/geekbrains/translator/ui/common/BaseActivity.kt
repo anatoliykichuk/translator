@@ -3,7 +3,7 @@ package com.geekbrains.translator.ui.common
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
-import com.geekbrains.translator.data.inteactor.IInteractor
+import com.geekbrains.translator.domain.inteactor.IInteractor
 
 abstract class BaseActivity<T: AppState, I: IInteractor<T>> : AppCompatActivity() {
 

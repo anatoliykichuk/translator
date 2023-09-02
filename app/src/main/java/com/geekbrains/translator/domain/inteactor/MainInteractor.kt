@@ -1,4 +1,4 @@
-package com.geekbrains.translator.data.inteactor
+package com.geekbrains.translator.domain.inteactor
 
 import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.data.repository.IRepository

@@ -26,12 +26,12 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
             val searchOption = binding.searchOption.text
 
             if (searchOption != null && searchOption.toString().isNotEmpty()) {
-                binding.searchOptionTitle.isEnabled = true
-                binding.clearSearchOption.visibility = View.VISIBLE
+                binding.startSearchByOptionButton.isEnabled = true
+                binding.clearSearchOptionButton.visibility = View.VISIBLE
 
             } else {
-                binding.searchOptionTitle.isEnabled = false
-                binding.clearSearchOption.visibility = View.GONE
+                binding.startSearchByOptionButton.isEnabled = false
+                binding.clearSearchOptionButton.visibility = View.GONE
             }
         }
 
@@ -39,7 +39,7 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
 
     }
 
-    private val onSearchOptionTitleClickListener = View.OnClickListener {
+    private val onSearchByOptionClickListener = View.OnClickListener {
         onSearchClickListener?.onClick(binding.searchOption.text.toString())
         dismiss()
     }
@@ -64,15 +64,15 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.searchOptionTitle.setOnClickListener(onSearchOptionTitleClickListener)
+        binding.startSearchByOptionButton.setOnClickListener(onSearchByOptionClickListener)
         binding.searchOption.addTextChangedListener(textWatcher)
         addOnClearClickListener()
     }
 
     private fun addOnClearClickListener() {
-        binding.clearSearchOption.setOnClickListener {
+        binding.clearSearchOptionButton.setOnClickListener {
             binding.searchOption.setText("")
-            binding.searchOptionTitle.isEnabled = false
+            binding.startSearchByOptionButton.isEnabled = false
         }
     }
 

@@ -25,7 +25,7 @@
             tools:listitem="@layout/translation_item" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/search_button"
+            android:id="@+id/open_search_dialog_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"

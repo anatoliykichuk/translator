@@ -9,7 +9,17 @@
     <string name="reload_text">Reload</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="search_option_title">search</string>
+    <string name="search_button_text">search</string>
     <string name="empty_server_response_on_success">Response from server is empty</string>
     <string name="undefined_error">Undefined error</string>
+
+    <string name="description_header_text">Header</string>
+    <string name="description_text">Description</string>
+    <string name="image_stub">image</string>
+    <string name="dialog_button_cancel">Cancel</string>
+    <string name="dialog_title_device_is_offline">No internet connection</string>
+    <string name="dialog_message_device_is_offline">You can not use app without internet connection. Please, check
+        internet connection.
+    </string>
+    <string name="dialog_tittle_sorry">Sorry</string>
 </resources>
