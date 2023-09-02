@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import coil.ImageLoader
+import coil.request.LoadRequest
+import coil.transform.CircleCropTransformation
 import com.geekbrains.translator.R
 import com.geekbrains.translator.databinding.ActivityDescriptionBinding
 import com.geekbrains.translator.ui.common.isOnline
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 
 class DescriptionActivity : AppCompatActivity() {
 
@@ -39,6 +40,7 @@ class DescriptionActivity : AppCompatActivity() {
                 onBackPressed()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -85,21 +87,17 @@ class DescriptionActivity : AppCompatActivity() {
     }
 
     private fun loadPhoto(imageView: ImageView, imageLink: String) {
-        Picasso.get().load("https:$imageLink")
-            .placeholder(R.drawable.ic_no_photography)
-            .fit()
-            .centerCrop()
-            .into(imageView, object : Callback{
-                override fun onSuccess() {
-                    stopRefreshAnimationIfNeeded()
-                }
+        val request = LoadRequest.Builder(this)
+            .data("https:$imageLink")
+            .target(
+                onStart = {},
+                onSuccess = { result -> imageView.setImageDrawable(result) },
+                onError = { imageView.setImageResource(R.drawable.ic_error) }
+            )
+            .transformations(CircleCropTransformation())
+            .build()
 
-                override fun onError(e: Exception?) {
-                    stopRefreshAnimationIfNeeded()
-                    imageView.setImageResource(R.drawable.ic_error)
-                }
-
-            })
+        ImageLoader(this).execute(request)
     }
 
     companion object {
