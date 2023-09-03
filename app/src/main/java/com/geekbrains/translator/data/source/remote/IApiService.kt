@@ -1,4 +1,4 @@
-package com.geekbrains.translator.data.source
+package com.geekbrains.translator.data.source.remote
 
 import com.geekbrains.translator.data.model.DataModel
 import kotlinx.coroutines.Deferred

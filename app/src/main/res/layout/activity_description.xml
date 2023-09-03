@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/margin_small"
     android:paddingRight="@dimen/margin_small"
     android:paddingStart="@dimen/margin_small"
-    tools:context=".ui.view.pages.DescriptionActivity">
+    tools:context=".ui.view.pages.description.DescriptionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

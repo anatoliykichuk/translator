@@ -1,4 +1,4 @@
-package com.geekbrains.translator.data.source
+package com.geekbrains.translator.data.source.remote
 
 import okhttp3.Interceptor
 import okhttp3.Response

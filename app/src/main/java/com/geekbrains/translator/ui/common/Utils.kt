@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import com.geekbrains.translator.R
 import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.data.model.Meanings
+import com.geekbrains.translator.data.source.local.HistoryEntity
 
 fun isOnline(context: Context): Boolean {
     val connectivityManager = context
@@ -49,6 +50,35 @@ fun convertMeaningsToString(meanings: List<Meanings>): String {
         }
     }
     return meaningsSeparatedByComma
+}
+
+fun mapHistoryEntityToSearchResult(historyEntities: List<HistoryEntity>): List<DataModel> {
+    val searchResults = ArrayList<DataModel>()
+
+    if (historyEntities.isNullOrEmpty()) {
+        return searchResults
+    }
+
+    for (historyEntity in historyEntities) {
+        searchResults.add(DataModel(historyEntity.word, null))
+    }
+    return searchResults
+}
+
+fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {
+    return when (appState) {
+        is AppState.Success -> {
+            val searchResult = appState.data
+
+            if (searchResult.isNullOrEmpty() || searchResult[0].text.isNullOrEmpty()) {
+                null
+            } else {
+                HistoryEntity(searchResult[0].text!!, null)
+            }
+        }
+
+        else -> null
+    }
 }
 
 fun getAlertDialog(context: Context, title: String?, message: String?): AlertDialog {

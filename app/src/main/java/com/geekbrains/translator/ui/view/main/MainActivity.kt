@@ -13,8 +13,8 @@ import com.geekbrains.translator.ui.common.BaseActivity
 import com.geekbrains.translator.ui.common.convertMeaningsToString
 import com.geekbrains.translator.ui.common.isOnline
 import com.geekbrains.translator.ui.view.adapters.MainAdapter
-import com.geekbrains.translator.ui.view.pages.DescriptionActivity
 import com.geekbrains.translator.ui.view.pages.SearchDialogFragment
+import com.geekbrains.translator.ui.view.pages.description.DescriptionActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<AppState, MainInteractor>() {

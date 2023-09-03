@@ -1,4 +1,4 @@
-package com.geekbrains.translator.ui.view.pages
+package com.geekbrains.translator.ui.view.pages.description
 
 import android.content.Context
 import android.content.Intent
@@ -12,6 +12,7 @@ import coil.transform.CircleCropTransformation
 import com.geekbrains.translator.R
 import com.geekbrains.translator.databinding.ActivityDescriptionBinding
 import com.geekbrains.translator.ui.common.isOnline
+import com.geekbrains.translator.ui.view.pages.AlertDialogFragment
 
 class DescriptionActivity : AppCompatActivity() {
 

@@ -1,6 +1,7 @@
-package com.geekbrains.translator.data.source
+package com.geekbrains.translator.data.source.remote
 
 import com.geekbrains.translator.data.model.DataModel
+import com.geekbrains.translator.data.source.IDataSource
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

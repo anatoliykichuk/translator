@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Translator"
         tools:targetApi="31">
         <activity
-            android:name=".ui.view.pages.DescriptionActivity"
+            android:name=".ui.view.pages.description.DescriptionActivity"
             android:exported="false" />
         <activity
             android:name=".ui.view.main.MainActivity"
