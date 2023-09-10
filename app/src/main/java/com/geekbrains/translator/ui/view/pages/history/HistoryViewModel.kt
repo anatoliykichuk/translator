@@ -1,4 +1,4 @@
-package com.geekbrains.translator.ui.view.pages.hostory
+package com.geekbrains.translator.ui.view.pages.history
 
 import androidx.lifecycle.LiveData
 import com.geekbrains.translator.domain.inteactor.HistoryInteractor
@@ -6,7 +6,9 @@ import com.geekbrains.translator.ui.common.AppState
 import com.geekbrains.translator.ui.common.BaseViewModel
 import com.geekbrains.translator.ui.common.parseSearchResults
 
-class HistoryViewModel(interactor: HistoryInteractor) : BaseViewModel<AppState>() {
+class HistoryViewModel(
+    private val interactor: HistoryInteractor
+) : BaseViewModel<AppState>() {
 
     private val liveData: LiveData<AppState> = _livedata
 

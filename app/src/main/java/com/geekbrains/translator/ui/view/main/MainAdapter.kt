@@ -1,4 +1,4 @@
-package com.geekbrains.translator.ui.view.adapters
+package com.geekbrains.translator.ui.view.main
 
 import android.view.LayoutInflater
 import android.view.View

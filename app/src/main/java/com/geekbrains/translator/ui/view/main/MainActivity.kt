@@ -1,8 +1,9 @@
 package com.geekbrains.translator.ui.view.main
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geekbrains.translator.R
 import com.geekbrains.translator.data.model.DataModel
@@ -12,19 +13,15 @@ import com.geekbrains.translator.ui.common.AppState
 import com.geekbrains.translator.ui.common.BaseActivity
 import com.geekbrains.translator.ui.common.convertMeaningsToString
 import com.geekbrains.translator.ui.common.isOnline
-import com.geekbrains.translator.ui.view.adapters.MainAdapter
 import com.geekbrains.translator.ui.view.pages.SearchDialogFragment
 import com.geekbrains.translator.ui.view.pages.description.DescriptionActivity
+import com.geekbrains.translator.ui.view.pages.history.HistoryActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
-    private var _binding: ActivityMainBinding? = null
-    private val binding
-        get() = _binding!!
-
+    private lateinit var binding: ActivityMainBinding
     override lateinit var viewModel: MainViewModel
-
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
 
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
@@ -44,7 +41,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        _binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initViewModel()
@@ -53,41 +50,22 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        _binding = null
     }
 
-    override fun renderData(appState: AppState) {
-        when (appState) {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.history_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
 
-            is AppState.Success -> {
-                showViewLoading()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
 
-                val dataModel = appState.data
-
-                if (dataModel.isNullOrEmpty()) {
-                    showErrorScreen(
-                        getString(R.string.empty_server_response_on_success)
-                    )
-                } else {
-                    showViewSuccess()
-                    adapter!!.setData(dataModel)
-                }
+            R.id.menu_history -> {
+                startActivity(Intent(this, HistoryActivity::class.java))
+                true
             }
 
-            is AppState.Loading -> {
-                showViewLoading()
-
-                binding.progress.visibility =
-                    if (appState.progress != null) {
-                        VISIBLE
-                    } else {
-                        GONE
-                    }
-            }
-
-            is AppState.Error -> {
-                showErrorScreen(appState.error.message)
-            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -122,7 +100,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                         if (isNetworkAvailable) {
                             viewModel.getData(word, isNetworkAvailable)
                         } else {
-                            showViewError()
+                            showNoInternetConnectionDialog()
                         }
                     }
                 }
@@ -131,31 +109,8 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         }
     }
 
-    private fun showErrorScreen(error: String?) {
-        showViewError()
-
-        binding.error.text = error ?: getString(R.string.undefined_error)
-        binding.reload.setOnClickListener {
-            viewModel.getData("hi", true)
-        }
-    }
-
-    private fun showViewSuccess() {
-        binding.successGroup.visibility = VISIBLE
-        binding.loadingGroup.visibility = GONE
-        binding.errorGroup.visibility = GONE
-    }
-
-    private fun showViewLoading() {
-        binding.successGroup.visibility = GONE
-        binding.loadingGroup.visibility = VISIBLE
-        binding.errorGroup.visibility = GONE
-    }
-
-    private fun showViewError() {
-        binding.successGroup.visibility = GONE
-        binding.loadingGroup.visibility = GONE
-        binding.errorGroup.visibility = VISIBLE
+    override fun setDataToAdapter(data: List<DataModel>) {
+        adapter.setData(data)
     }
 
     companion object {

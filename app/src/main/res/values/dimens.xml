@@ -5,6 +5,7 @@
     <dimen name="search_button_text_size">25sp</dimen>
     <dimen name="margin_small">5dp</dimen>
     <dimen name="margin_medium">15dp</dimen>
+    <dimen name="hairline">1px</dimen>
 
     <dimen name="text_size_standard">17sp</dimen>
     <dimen name="text_size_standard_header">20sp</dimen>
