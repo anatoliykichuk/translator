@@ -4,12 +4,14 @@ import androidx.lifecycle.LiveData
 import com.geekbrains.translator.domain.inteactor.MainInteractor
 import com.geekbrains.translator.ui.common.AppState
 import com.geekbrains.translator.ui.common.BaseViewModel
-import com.geekbrains.translator.ui.common.parseSearchResults
+import com.geekbrains.translator.ui.common.parseOnlineSearchResults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainViewModel(private val interactor: MainInteractor) : BaseViewModel<AppState>() {
+class MainViewModel(
+    private val interactor: MainInteractor
+) : BaseViewModel<AppState>() {
 
     private val liveData: LiveData<AppState> = _livedata
 
@@ -36,7 +38,7 @@ class MainViewModel(private val interactor: MainInteractor) : BaseViewModel<AppS
     private suspend fun startInteractor(word: String, isOnline: Boolean) =
         withContext(Dispatchers.IO) {
             _livedata.postValue(
-                parseSearchResults(
+                parseOnlineSearchResults(
                     interactor.getData(word, isOnline)
                 )
             )

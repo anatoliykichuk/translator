@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import com.geekbrains.translator.domain.inteactor.HistoryInteractor
 import com.geekbrains.translator.ui.common.AppState
 import com.geekbrains.translator.ui.common.BaseViewModel
-import com.geekbrains.translator.ui.common.parseSearchResults
+import com.geekbrains.translator.ui.common.parseLocalSearchResults
+import kotlinx.coroutines.launch
 
 class HistoryViewModel(
     private val interactor: HistoryInteractor
@@ -18,7 +19,9 @@ class HistoryViewModel(
 
     override fun getData(word: String, isOnline: Boolean) {
         _livedata.value = AppState.Loading(null)
+        cancelJob()
 
+        viewModelCoroutineScope.launch { startInteractor(word, isOnline) }
     }
 
     override fun handleError(error: Throwable) {
@@ -32,7 +35,7 @@ class HistoryViewModel(
 
     private suspend fun startInteractor(word: String, isOnline: Boolean) =
         _livedata.postValue(
-            parseSearchResults(
+            parseLocalSearchResults(
                 interactor.getData(word, isOnline)
             )
         )

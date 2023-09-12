@@ -34,7 +34,7 @@ abstract class BaseActivity<T : AppState, I : IInteractor<T>> : AppCompatActivit
         }
     }
 
-    protected open fun renderData(appState: T) {
+    protected fun renderData(appState: T) {
         when (appState) {
 
             is AppState.Success -> {

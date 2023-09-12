@@ -11,7 +11,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
 
     private lateinit var binding: ActivityHistoryBinding
-    override lateinit var viewModel: HistoryViewModel
+    override val viewModel: HistoryViewModel by viewModel()
     private val adapter: HistoryAdapter by lazy { HistoryAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,11 +29,6 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
         viewModel.getData("", false)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        //_binding = null
-    }
-
     override fun setDataToAdapter(data: List<DataModel>) {
         adapter.setData(data)
     }
@@ -43,8 +38,6 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
 
-        val _viewModel: HistoryViewModel by viewModel()
-        viewModel = _viewModel
         viewModel.subscribe().observe(
             this@HistoryActivity, { renderData(it) }
         )
