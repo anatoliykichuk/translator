@@ -2,7 +2,7 @@ package com.geekbrains.translator.data.source.local
 
 import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.ui.common.AppState
-import com.geekbrains.translator.ui.common.convertDataModelSuccessToEntity
+import com.geekbrains.translator.ui.common.convertDataModelToEntity
 import com.geekbrains.translator.ui.common.mapHistoryEntityToSearchResult
 
 class RoomClient(private val historyDao: HistoryDao) : IDataSourceLocal<List<DataModel>> {
@@ -11,7 +11,7 @@ class RoomClient(private val historyDao: HistoryDao) : IDataSourceLocal<List<Dat
     }
 
     override suspend fun saveData(appState: AppState) {
-        convertDataModelSuccessToEntity(appState)?.let {
+        convertDataModelToEntity(appState)?.let {
             historyDao.insert(it)
         }
     }

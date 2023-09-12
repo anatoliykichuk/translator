@@ -38,20 +38,7 @@ fun convertMeaningsToString(meanings: List<Meanings>): String {
     return meaningsSeparatedByComma
 }
 
-fun mapHistoryEntityToSearchResult(historyEntities: List<HistoryEntity>): List<DataModel> {
-    val searchResults = ArrayList<DataModel>()
-
-    if (historyEntities.isNullOrEmpty()) {
-        return searchResults
-    }
-
-    for (historyEntity in historyEntities) {
-        searchResults.add(DataModel(historyEntity.word, null))
-    }
-    return searchResults
-}
-
-fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {
+fun convertDataModelToEntity(appState: AppState): HistoryEntity? {
     return when (appState) {
         is AppState.Success -> {
             val searchResult = appState.data
@@ -65,6 +52,19 @@ fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {
 
         else -> null
     }
+}
+
+fun mapHistoryEntityToSearchResult(historyEntities: List<HistoryEntity>): List<DataModel> {
+    val searchResults = ArrayList<DataModel>()
+
+    if (historyEntities.isNullOrEmpty()) {
+        return searchResults
+    }
+
+    for (historyEntity in historyEntities) {
+        searchResults.add(DataModel(historyEntity.word, null))
+    }
+    return searchResults
 }
 
 fun getAlertDialog(context: Context, title: String?, message: String?): AlertDialog {
