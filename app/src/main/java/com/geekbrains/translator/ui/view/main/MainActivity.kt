@@ -1,6 +1,5 @@
 package com.geekbrains.translator.ui.view.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -57,12 +56,16 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         return when (item.itemId) {
 
             R.id.menu_history -> {
-                startActivity(Intent(this, HistoryActivity::class.java))
+                startActivity(HistoryActivity.getIntent(this@MainActivity, ""))
                 true
             }
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun setDataToAdapter(data: List<DataModel>) {
+        adapter.setData(data)
     }
 
     private fun initViewModel() {
@@ -88,11 +91,15 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
             searchDialogFragment.setOnSearchClickListener(
                 object : SearchDialogFragment.OnSearchClickListener {
-                    override fun onClick(word: String) {
+                    override fun onClick(word: String, fromRemoteSource: Boolean) {
                         isNetworkAvailable = isOnline(applicationContext)
 
-                        if (isNetworkAvailable) {
+                        if (!fromRemoteSource) {
+                            showDataFromHistory(word)
+
+                        } else if (isNetworkAvailable) {
                             viewModel.getData(word, isNetworkAvailable)
+
                         } else {
                             showNoInternetConnectionDialog()
                         }
@@ -103,8 +110,8 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         }
     }
 
-    override fun setDataToAdapter(data: List<DataModel>) {
-        adapter.setData(data)
+    private fun showDataFromHistory(word: String) {
+        startActivity(HistoryActivity.getIntent(this@MainActivity, word))
     }
 
     companion object {

@@ -9,7 +9,6 @@
     <string name="reload_text">Reload</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="search_button_text">search</string>
     <string name="empty_server_response_on_success">Response from server is empty</string>
     <string name="undefined_error">Undefined error</string>
 

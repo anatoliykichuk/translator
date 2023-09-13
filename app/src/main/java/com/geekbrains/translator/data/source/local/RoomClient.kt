@@ -7,7 +7,13 @@ import com.geekbrains.translator.ui.common.mapHistoryEntityToSearchResult
 
 class RoomClient(private val historyDao: HistoryDao) : IDataSourceLocal<List<DataModel>> {
     override suspend fun getData(word: String): List<DataModel> {
-        return mapHistoryEntityToSearchResult(historyDao.getAll())
+        return if (word.isEmpty()) {
+            mapHistoryEntityToSearchResult(historyDao.getAll())
+        } else {
+            mapHistoryEntityToSearchResult(
+                listOf(historyDao.getDataByWord(word))
+            )
+        }
     }
 
     override suspend fun saveData(appState: AppState) {

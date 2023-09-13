@@ -1,5 +1,7 @@
 package com.geekbrains.translator.ui.view.pages.history
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.databinding.ActivityHistoryBinding
@@ -26,7 +28,17 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getData("", false)
+
+        val bundle = intent.extras
+        val word = with(bundle?.getString(WORD_EXTRA)) {
+            if (this.isNullOrEmpty()) {
+                ""
+            } else {
+                this
+            }
+        }
+
+        viewModel.getData(word, false)
     }
 
     override fun setDataToAdapter(data: List<DataModel>) {
@@ -45,5 +57,15 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
 
     private fun initViews() {
         binding.historyListLayout.adapter = adapter
+    }
+
+    companion object {
+        private const val WORD_EXTRA = "6bd6013f-0430-47c1-beb5-b250554c586f"
+
+        fun getIntent(
+            context: Context, word: String
+        ): Intent = Intent(context, HistoryActivity::class.java).apply {
+            putExtra(WORD_EXTRA, word)
+        }
     }
 }

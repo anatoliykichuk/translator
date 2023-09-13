@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainViewModel(
-    private val interactor: MainInteractor
+    private val interactor: MainInteractor,
 ) : BaseViewModel<AppState>() {
 
     private val liveData: LiveData<AppState> = _livedata
