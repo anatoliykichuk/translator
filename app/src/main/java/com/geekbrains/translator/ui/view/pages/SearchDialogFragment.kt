@@ -26,30 +26,32 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
             val searchOption = binding.searchOption.text
 
             if (searchOption != null && searchOption.toString().isNotEmpty()) {
-                binding.searchOptionTitle.isEnabled = true
-                binding.clearSearchOption.visibility = View.VISIBLE
+                binding.startSearchFromNetByOptionButton.isEnabled = true
+                binding.startSearchFromHistoryByOptionButton.isEnabled = true
+                binding.clearSearchOptionButton.visibility = View.VISIBLE
 
             } else {
-                binding.searchOptionTitle.isEnabled = false
-                binding.clearSearchOption.visibility = View.GONE
+                binding.startSearchFromNetByOptionButton.isEnabled = false
+                binding.startSearchFromHistoryByOptionButton.isEnabled = false
+                binding.clearSearchOptionButton.visibility = View.GONE
             }
         }
 
         override fun afterTextChanged(s: Editable?) {}
-
     }
 
-    private val onSearchOptionTitleClickListener = View.OnClickListener {
-        onSearchClickListener?.onClick(binding.searchOption.text.toString())
+    private val onSearchFromNetByOptionClickListener = View.OnClickListener {
+        onSearchClickListener?.onClick(binding.searchOption.text.toString(), true)
+        dismiss()
+    }
+
+    private val onSearchFromHistoryByOptionClickListener = View.OnClickListener {
+        onSearchClickListener?.onClick(binding.searchOption.text.toString(), false)
         dismiss()
     }
 
     internal fun setOnSearchClickListener(listener: OnSearchClickListener) {
         onSearchClickListener = listener
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -64,20 +66,28 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.searchOptionTitle.setOnClickListener(onSearchOptionTitleClickListener)
+        binding.startSearchFromNetByOptionButton.setOnClickListener(
+            onSearchFromNetByOptionClickListener
+        )
+
+        binding.startSearchFromHistoryByOptionButton.setOnClickListener(
+            onSearchFromHistoryByOptionClickListener
+        )
+
         binding.searchOption.addTextChangedListener(textWatcher)
         addOnClearClickListener()
     }
 
     private fun addOnClearClickListener() {
-        binding.clearSearchOption.setOnClickListener {
+        binding.clearSearchOptionButton.setOnClickListener {
             binding.searchOption.setText("")
-            binding.searchOptionTitle.isEnabled = false
+            binding.startSearchFromNetByOptionButton.isEnabled = false
+            binding.startSearchFromHistoryByOptionButton.isEnabled = false
         }
     }
 
     interface OnSearchClickListener {
-        fun onClick(word: String)
+        fun onClick(word: String, fromRemoteSource: Boolean)
     }
 
     companion object {

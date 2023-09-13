@@ -1,16 +1,14 @@
-package com.geekbrains.translator.ui.view.main
+package com.geekbrains.translator.ui.view.pages.history
 
 import androidx.lifecycle.LiveData
-import com.geekbrains.translator.domain.inteactor.MainInteractor
+import com.geekbrains.translator.domain.inteactor.HistoryInteractor
 import com.geekbrains.translator.ui.common.AppState
 import com.geekbrains.translator.ui.common.BaseViewModel
-import com.geekbrains.translator.ui.common.parseOnlineSearchResults
-import kotlinx.coroutines.Dispatchers
+import com.geekbrains.translator.ui.common.parseLocalSearchResults
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class MainViewModel(
-    private val interactor: MainInteractor,
+class HistoryViewModel(
+    private val interactor: HistoryInteractor
 ) : BaseViewModel<AppState>() {
 
     private val liveData: LiveData<AppState> = _livedata
@@ -36,11 +34,9 @@ class MainViewModel(
     }
 
     private suspend fun startInteractor(word: String, isOnline: Boolean) =
-        withContext(Dispatchers.IO) {
-            _livedata.postValue(
-                parseOnlineSearchResults(
-                    interactor.getData(word, isOnline)
-                )
+        _livedata.postValue(
+            parseLocalSearchResults(
+                interactor.getData(word, isOnline)
             )
-        }
+        )
 }
