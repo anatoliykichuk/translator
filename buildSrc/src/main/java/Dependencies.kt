@@ -17,9 +17,9 @@ object Releases {
 object Modules {
     const val app = ":app"
     const val utils = ":utils"
-//    const val core = ":core"
-//    const val model = ":model"
-//    const val repository = ":repository"
+    const val core = ":core"
+    const val model = ":model"
+    const val repository = ":repository"
 }
 
 object Versions {
@@ -27,31 +27,25 @@ object Versions {
     const val appcompat = "1.6.1"
     const val material = "1.9.0"
     const val constraintLayout = "2.1.4"
-
     // Kotlin
-    const val core = "3.1.2"
+    const val core = "1.10.1"
     const val stdlib = "1.9.0"
     const val coroutinesCore = "1.5.1"
     const val coroutinesAndroid = "1.6.4"
-
     // Retrofit
     const val retrofit = "2.9.0"
     const val converterGson = "2.9.0"
     const val interceptor = "4.11.0"
-    const val adapterCoroutines = "0.9.2"
-
+    const val coroutinesAdapter = "0.9.2"
     // Koin
     const val koinAndroid = "3.1.2"
     const val koinViewModel = "3.1.2"
-
     // Coil
     const val coil = "0.11.0"
-
     // Room
     const val roomKtx = "2.5.2"
     const val runtime = "2.5.2"
     const val roomCompiler = "2.5.2"
-
     // Test
     const val jUnit = "4.13.2"
     const val runner = "1.2.0"
@@ -62,7 +56,7 @@ object Design {
     const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
     const val material = "com.google.android.material:material:${Versions.material}"
     const val constraintLayout =
-        "androidx.constraintlayout:constraintlayout::${Versions.constraintLayout}"
+        "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
 }
 
 object Kotlin {
@@ -78,9 +72,9 @@ object Retrofit {
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val converter_gson =
         "com.squareup.retrofit2:converter-gson:${Versions.converterGson}"
-    const val adapter_coroutines =
+    const val coroutines_adapter =
         "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${
-            Versions.adapterCoroutines}"
+            Versions.coroutinesAdapter}"
     const val logging_interceptor =
         "com.squareup.okhttp3:logging-interceptor:${Versions.interceptor}"
 }
