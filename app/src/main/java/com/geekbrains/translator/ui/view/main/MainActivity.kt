@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.geekbrains.model.AppState
 import com.geekbrains.model.data.DataModel
 import com.geekbrains.translator.R
-import com.geekbrains.translator.data.convertMeaningsToString
 import com.geekbrains.translator.databinding.ActivityMainBinding
 import com.geekbrains.translator.domain.inteactor.MainInteractor
 import com.geekbrains.translator.ui.common.BaseActivity
@@ -29,7 +28,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                     DescriptionActivity.getIntent(
                         this@MainActivity,
                         dataItem.text!!,
-                        convertMeaningsToString(dataItem.meanings!!),
+                        com.geekbrains.repository.convertMeaningsToString(dataItem.meanings!!),
                         dataItem.meanings!![0].imageUrl!!
                     )
                 )

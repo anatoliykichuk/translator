@@ -16,3 +16,4 @@ rootProject.name = "translator"
 include ':app'
 include ':utils'
 include ':model'
+include ':repository'

@@ -1,7 +1,6 @@
 package com.geekbrains.translator.ui.view.main
 
 import androidx.lifecycle.LiveData
-import com.geekbrains.translator.data.parseOnlineSearchResults
 import com.geekbrains.translator.domain.inteactor.MainInteractor
 import com.geekbrains.translator.ui.common.BaseViewModel
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +36,7 @@ class MainViewModel(
     private suspend fun startInteractor(word: String, isOnline: Boolean) =
         withContext(Dispatchers.IO) {
             _livedata.postValue(
-                parseOnlineSearchResults(
+                com.geekbrains.repository.parseOnlineSearchResults(
                     interactor.getData(word, isOnline)
                 )
             )

@@ -1,4 +1,4 @@
-package com.geekbrains.translator.data.source.local
+package com.geekbrains.repository.source.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

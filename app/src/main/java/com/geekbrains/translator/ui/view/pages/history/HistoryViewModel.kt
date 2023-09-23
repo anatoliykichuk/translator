@@ -1,7 +1,6 @@
 package com.geekbrains.translator.ui.view.pages.history
 
 import androidx.lifecycle.LiveData
-import com.geekbrains.translator.data.parseLocalSearchResults
 import com.geekbrains.translator.domain.inteactor.HistoryInteractor
 import com.geekbrains.translator.ui.common.BaseViewModel
 import kotlinx.coroutines.launch
@@ -34,7 +33,7 @@ class HistoryViewModel(
 
     private suspend fun startInteractor(word: String, isOnline: Boolean) =
         _livedata.postValue(
-            parseLocalSearchResults(
+            com.geekbrains.repository.parseLocalSearchResults(
                 interactor.getData(word, isOnline)
             )
         )
