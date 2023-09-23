@@ -1,4 +1,4 @@
-package com.geekbrains.translator.ui.common
+package com.geekbrains.utils.ui
 
 import android.content.Context
 import android.util.AttributeSet

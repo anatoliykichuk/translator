@@ -1,10 +1,10 @@
 package com.geekbrains.translator.ui.view.main
 
 import androidx.lifecycle.LiveData
+import com.geekbrains.translator.data.parseOnlineSearchResults
 import com.geekbrains.translator.domain.inteactor.MainInteractor
 import com.geekbrains.translator.ui.common.AppState
 import com.geekbrains.translator.ui.common.BaseViewModel
-import com.geekbrains.translator.ui.common.parseOnlineSearchResults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

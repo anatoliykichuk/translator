@@ -1,10 +1,10 @@
-package com.geekbrains.translator.ui.view.pages
+package com.geekbrains.utils.ui
 
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDialogFragment
-import com.geekbrains.translator.ui.common.getAlertDialog
-import com.geekbrains.translator.ui.common.getStubAlertDialog
+import com.geekbrains.utils.getAlertDialog
+import com.geekbrains.utils.getStubAlertDialog
 
 class AlertDialogFragment : AppCompatDialogFragment() {
 

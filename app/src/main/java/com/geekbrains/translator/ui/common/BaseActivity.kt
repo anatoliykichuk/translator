@@ -8,7 +8,8 @@ import com.geekbrains.translator.R
 import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.databinding.LoadingLayoutBinding
 import com.geekbrains.translator.domain.inteactor.IInteractor
-import com.geekbrains.translator.ui.view.pages.AlertDialogFragment
+import com.geekbrains.utils.isOnline
+import com.geekbrains.utils.ui.AlertDialogFragment
 
 private const val DIALOG_FRAGMENT_TAG = "c10114f4-fe01-4d74-8619-6c5c8049158b"
 

@@ -41,6 +41,8 @@ android {
 }
 
 dependencies {
+    implementation project(Modules.utils)
+
     // Kotlin
     implementation Kotlin.stdlib
     implementation Kotlin.core
