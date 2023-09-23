@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.geekbrains.model.AppState
+import com.geekbrains.model.data.DataModel
 import com.geekbrains.translator.R
-import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.databinding.LoadingLayoutBinding
 import com.geekbrains.translator.domain.inteactor.IInteractor
 import com.geekbrains.utils.isOnline
@@ -59,7 +60,7 @@ abstract class BaseActivity<T : AppState, I : IInteractor<T>> : AppCompatActivit
                 if (appState.progress != null) {
                     binding.progressBarHorizontal.visibility = View.VISIBLE
                     binding.progressBarRound.visibility = View.GONE
-                    binding.progressBarHorizontal.progress = appState.progress
+                    binding.progressBarHorizontal.progress = appState.progress!!
                 } else {
                     binding.progressBarHorizontal.visibility = View.GONE
                     binding.progressBarRound.visibility = View.VISIBLE

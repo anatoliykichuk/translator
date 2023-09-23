@@ -1,6 +1,5 @@
 package com.geekbrains.translator.data.source.remote
 
-import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.data.source.IDataSource
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
@@ -9,9 +8,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitClient : IDataSource<List<DataModel>> {
+class RetrofitClient : IDataSource<List<com.geekbrains.model.data.DataModel>> {
 
-    override suspend fun getData(word: String): List<DataModel> {
+    override suspend fun getData(word: String): List<com.geekbrains.model.data.DataModel> {
         return getService(BaseInterceptor.interceptor).searchAsync(word).await()
     }
 

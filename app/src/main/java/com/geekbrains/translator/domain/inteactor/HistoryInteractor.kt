@@ -1,17 +1,15 @@
 package com.geekbrains.translator.domain.inteactor
 
-import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.data.repository.IRepository
 import com.geekbrains.translator.data.repository.IRepositoryLocal
-import com.geekbrains.translator.ui.common.AppState
 
 class HistoryInteractor(
-    private val repositoryRemote: IRepository<List<DataModel>>,
-    private val repositoryLocal: IRepositoryLocal<List<DataModel>>
-) : IInteractor<AppState> {
+    private val repositoryRemote: IRepository<List<com.geekbrains.model.data.DataModel>>,
+    private val repositoryLocal: IRepositoryLocal<List<com.geekbrains.model.data.DataModel>>
+) : IInteractor<com.geekbrains.model.AppState> {
 
-    override suspend fun getData(word: String, fromRemoteSource: Boolean): AppState {
-        return AppState.Success(
+    override suspend fun getData(word: String, fromRemoteSource: Boolean): com.geekbrains.model.AppState {
+        return com.geekbrains.model.AppState.Success(
             if (fromRemoteSource) {
                 repositoryRemote
             } else {

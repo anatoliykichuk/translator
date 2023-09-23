@@ -3,7 +3,6 @@ package com.geekbrains.translator.ui.view.main
 import androidx.lifecycle.LiveData
 import com.geekbrains.translator.data.parseOnlineSearchResults
 import com.geekbrains.translator.domain.inteactor.MainInteractor
-import com.geekbrains.translator.ui.common.AppState
 import com.geekbrains.translator.ui.common.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,27 +10,27 @@ import kotlinx.coroutines.withContext
 
 class MainViewModel(
     private val interactor: MainInteractor,
-) : BaseViewModel<AppState>() {
+) : BaseViewModel<com.geekbrains.model.AppState>() {
 
-    private val liveData: LiveData<AppState> = _livedata
+    private val liveData: LiveData<com.geekbrains.model.AppState> = _livedata
 
-    fun subscribe(): LiveData<AppState> {
+    fun subscribe(): LiveData<com.geekbrains.model.AppState> {
         return liveData
     }
 
     override fun getData(word: String, isOnline: Boolean) {
-        _livedata.value = AppState.Loading(null)
+        _livedata.value = com.geekbrains.model.AppState.Loading(null)
         cancelJob()
 
         viewModelCoroutineScope.launch { startInteractor(word, isOnline) }
     }
 
     override fun handleError(error: Throwable) {
-        _livedata.postValue(AppState.Error(error))
+        _livedata.postValue(com.geekbrains.model.AppState.Error(error))
     }
 
     override fun onCleared() {
-        _livedata.value = AppState.Success(null)
+        _livedata.value = com.geekbrains.model.AppState.Success(null)
         super.onCleared()
     }
 

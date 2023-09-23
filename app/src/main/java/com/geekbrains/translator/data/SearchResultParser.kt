@@ -1,25 +1,22 @@
 package com.geekbrains.translator.data
 
-import com.geekbrains.translator.data.model.DataModel
-import com.geekbrains.translator.data.model.Meanings
 import com.geekbrains.translator.data.source.local.HistoryEntity
-import com.geekbrains.translator.ui.common.AppState
 
-fun mapHistoryEntityToSearchResult(list: List<HistoryEntity>): List<DataModel> {
-    val searchResult = ArrayList<DataModel>()
+fun mapHistoryEntityToSearchResult(list: List<HistoryEntity>): List<com.geekbrains.model.data.DataModel> {
+    val searchResult = ArrayList<com.geekbrains.model.data.DataModel>()
 
     if (!list.isNullOrEmpty()) {
         for (entity in list) {
-            searchResult.add(DataModel(entity.word, null))
+            searchResult.add(com.geekbrains.model.data.DataModel(entity.word, null))
         }
     }
 
     return searchResult
 }
 
-fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {
+fun convertDataModelSuccessToEntity(appState: com.geekbrains.model.AppState): HistoryEntity? {
     return when (appState) {
-        is AppState.Success -> {
+        is com.geekbrains.model.AppState.Success -> {
             val searchResult = appState.data
 
             if (searchResult.isNullOrEmpty() || searchResult[0].text.isNullOrEmpty()) {
@@ -32,22 +29,22 @@ fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {
     }
 }
 
-fun parseLocalSearchResults(appState: AppState): AppState {
-    return AppState.Success(mapResult(appState, false))
+fun parseLocalSearchResults(appState: com.geekbrains.model.AppState): com.geekbrains.model.AppState {
+    return com.geekbrains.model.AppState.Success(mapResult(appState, false))
 }
 
-fun parseOnlineSearchResults(appState: AppState): AppState {
-    return AppState.Success(mapResult(appState, true))
+fun parseOnlineSearchResults(appState: com.geekbrains.model.AppState): com.geekbrains.model.AppState {
+    return com.geekbrains.model.AppState.Success(mapResult(appState, true))
 }
 
 private fun mapResult(
-    appState: AppState,
+    appState: com.geekbrains.model.AppState,
     isOnline: Boolean
-): List<DataModel> {
-    val newSearchResults = arrayListOf<DataModel>()
+): List<com.geekbrains.model.data.DataModel> {
+    val newSearchResults = arrayListOf<com.geekbrains.model.data.DataModel>()
 
     when (appState) {
-        is AppState.Success -> {
+        is com.geekbrains.model.AppState.Success -> {
             getSuccessResultData(appState, isOnline, newSearchResults)
         }
         else -> {
@@ -59,11 +56,11 @@ private fun mapResult(
 }
 
 private fun getSuccessResultData(
-    appState: AppState.Success,
+    appState: com.geekbrains.model.AppState.Success,
     isOnline: Boolean,
-    newDataModels: ArrayList<DataModel>
+    newDataModels: ArrayList<com.geekbrains.model.data.DataModel>
 ) {
-    val dataModels: List<DataModel> = appState.data as List<DataModel>
+    val dataModels: List<com.geekbrains.model.data.DataModel> = appState.data as List<com.geekbrains.model.data.DataModel>
     if (dataModels.isNotEmpty()) {
         if (isOnline) {
             for (searchResult in dataModels) {
@@ -71,34 +68,44 @@ private fun getSuccessResultData(
             }
         } else {
             for (searchResult in dataModels) {
-                newDataModels.add(DataModel(searchResult.text, arrayListOf()))
+                newDataModels.add(
+                    com.geekbrains.model.data.DataModel(
+                        searchResult.text,
+                        arrayListOf()
+                    )
+                )
             }
         }
     }
 }
 
-private fun parseOnlineResult(dataModel: DataModel, newDataModels: ArrayList<DataModel>) {
+private fun parseOnlineResult(dataModel: com.geekbrains.model.data.DataModel, newDataModels: ArrayList<com.geekbrains.model.data.DataModel>) {
     if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
-        val newMeanings = arrayListOf<Meanings>()
+        val newMeanings = arrayListOf<com.geekbrains.model.data.Meanings>()
 
         dataModel.meanings?.let {
             for (meaning in dataModel.meanings!!) {
                 if (meaning.translation != null && !meaning.translation!!.text.isNullOrBlank()) {
-                    newMeanings.add(Meanings(meaning.translation, meaning.imageUrl))
+                    newMeanings.add(
+                        com.geekbrains.model.data.Meanings(
+                            meaning.translation,
+                            meaning.imageUrl
+                        )
+                    )
                 }
             }
         }
 
         if (newMeanings.isNotEmpty()) {
-            newDataModels.add(DataModel(dataModel.text, newMeanings))
+            newDataModels.add(com.geekbrains.model.data.DataModel(dataModel.text, newMeanings))
         }
     }
 }
 
-fun parseSearchResults(state: AppState): AppState {
-    val newSearchResults = arrayListOf<DataModel>()
+fun parseSearchResults(state: com.geekbrains.model.AppState): com.geekbrains.model.AppState {
+    val newSearchResults = arrayListOf<com.geekbrains.model.data.DataModel>()
     when (state) {
-        is AppState.Success -> {
+        is com.geekbrains.model.AppState.Success -> {
             val searchResults = state.data
             if (!searchResults.isNullOrEmpty()) {
                 for (searchResult in searchResults) {
@@ -110,26 +117,31 @@ fun parseSearchResults(state: AppState): AppState {
         else -> {}
     }
 
-    return AppState.Success(newSearchResults)
+    return com.geekbrains.model.AppState.Success(newSearchResults)
 }
 
-private fun parseResult(dataModel: DataModel, newDataModels: ArrayList<DataModel>) {
+private fun parseResult(dataModel: com.geekbrains.model.data.DataModel, newDataModels: ArrayList<com.geekbrains.model.data.DataModel>) {
     if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
-        val newMeanings = arrayListOf<Meanings>()
+        val newMeanings = arrayListOf<com.geekbrains.model.data.Meanings>()
 
         for (meaning in dataModel.meanings!!) {
             if (meaning.translation != null && !meaning.translation!!.text.isNullOrBlank()) {
-                newMeanings.add(Meanings(meaning.translation, meaning.imageUrl))
+                newMeanings.add(
+                    com.geekbrains.model.data.Meanings(
+                        meaning.translation,
+                        meaning.imageUrl
+                    )
+                )
             }
         }
 
         if (newMeanings.isNotEmpty()) {
-            newDataModels.add(DataModel(dataModel.text, newMeanings))
+            newDataModels.add(com.geekbrains.model.data.DataModel(dataModel.text, newMeanings))
         }
     }
 }
 
-fun convertMeaningsToString(meanings: List<Meanings>): String {
+fun convertMeaningsToString(meanings: List<com.geekbrains.model.data.Meanings>): String {
     var meaningsSeparatedByComma = String()
     for ((index, meaning) in meanings.withIndex()) {
         meaningsSeparatedByComma += if (index + 1 != meanings.size) {

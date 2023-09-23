@@ -1,7 +1,6 @@
 package com.geekbrains.translator.di
 
 import androidx.room.Room
-import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.data.repository.IRepository
 import com.geekbrains.translator.data.repository.IRepositoryLocal
 import com.geekbrains.translator.data.repository.RepositoryLocal
@@ -18,8 +17,8 @@ import org.koin.dsl.module
 val application = module {
     single { Room.databaseBuilder(get(), HistoryDatabase::class.java, "HistoryDB").build() }
     single { get<HistoryDatabase>().historyDao() }
-    single<IRepositoryLocal<List<DataModel>>> { RepositoryLocal(RoomClient(get())) }
-    single<IRepository<List<DataModel>>> { RepositoryRemote(RetrofitClient()) }
+    single<IRepositoryLocal<List<com.geekbrains.model.data.DataModel>>> { RepositoryLocal(RoomClient(get())) }
+    single<IRepository<List<com.geekbrains.model.data.DataModel>>> { RepositoryRemote(RetrofitClient()) }
 }
 
 val mainScreen = module {

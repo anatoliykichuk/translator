@@ -1,0 +1,24 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.geekbrains.model'
+}
+
+dependencies {
+    implementation project(Modules.utils)
+
+    implementation Design.appcompat
+    // Kotlin
+    implementation Kotlin.core
+    implementation Kotlin.stdlib
+    // Retrofit 2
+    implementation Retrofit.converter_gson
+    // Test
+    testImplementation TestImpl.junit
+    androidTestImplementation TestImpl.runner
+    androidTestImplementation TestImpl.espresso
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}

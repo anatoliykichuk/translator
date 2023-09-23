@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 
-abstract class BaseViewModel<T : AppState>(
+abstract class BaseViewModel<T : com.geekbrains.model.AppState>(
     protected open val _livedata: MutableLiveData<T> = MutableLiveData()
 ) : ViewModel() {
 

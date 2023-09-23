@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "translator"
 include ':app'
 include ':utils'
+include ':model'
