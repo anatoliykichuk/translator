@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.geekbrains.model.data.DataModel
 import com.geekbrains.translator.R
-import com.geekbrains.translator.data.model.DataModel
 
 class MainAdapter(
     private var onListItemClickListener: OnListItemClickListener

@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.geekbrains.core.ui.BaseActivity
+import com.geekbrains.model.AppState
+import com.geekbrains.model.data.DataModel
+import com.geekbrains.repository.convertMeaningsToString
 import com.geekbrains.translator.R
-import com.geekbrains.translator.data.model.DataModel
 import com.geekbrains.translator.databinding.ActivityMainBinding
-import com.geekbrains.translator.domain.inteactor.MainInteractor
-import com.geekbrains.translator.ui.common.AppState
-import com.geekbrains.translator.ui.common.BaseActivity
-import com.geekbrains.translator.ui.common.convertMeaningsToString
-import com.geekbrains.translator.ui.common.isOnline
+import com.geekbrains.translator.domain.MainInteractor
 import com.geekbrains.translator.ui.view.pages.SearchDialogFragment
 import com.geekbrains.translator.ui.view.pages.description.DescriptionActivity
 import com.geekbrains.translator.ui.view.pages.history.HistoryActivity
+import com.geekbrains.utils.isOnline
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
@@ -31,7 +31,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                         this@MainActivity,
                         dataItem.text!!,
                         convertMeaningsToString(dataItem.meanings!!),
-                        dataItem.meanings[0].imageUrl!!
+                        dataItem.meanings!![0].imageUrl!!
                     )
                 )
             }

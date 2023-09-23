@@ -3,11 +3,11 @@ package com.geekbrains.translator.ui.view.pages.history
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.geekbrains.translator.data.model.DataModel
+import com.geekbrains.core.ui.BaseActivity
+import com.geekbrains.model.AppState
+import com.geekbrains.model.data.DataModel
 import com.geekbrains.translator.databinding.ActivityHistoryBinding
-import com.geekbrains.translator.domain.inteactor.HistoryInteractor
-import com.geekbrains.translator.ui.common.AppState
-import com.geekbrains.translator.ui.common.BaseActivity
+import com.geekbrains.translator.domain.HistoryInteractor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {

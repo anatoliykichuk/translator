@@ -11,8 +11,8 @@ import coil.request.LoadRequest
 import coil.transform.CircleCropTransformation
 import com.geekbrains.translator.R
 import com.geekbrains.translator.databinding.ActivityDescriptionBinding
-import com.geekbrains.translator.ui.common.isOnline
-import com.geekbrains.translator.ui.view.pages.AlertDialogFragment
+import com.geekbrains.utils.isOnline
+import com.geekbrains.utils.ui.AlertDialogFragment
 
 class DescriptionActivity : AppCompatActivity() {
 

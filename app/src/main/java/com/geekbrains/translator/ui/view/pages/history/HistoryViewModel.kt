@@ -1,10 +1,10 @@
 package com.geekbrains.translator.ui.view.pages.history
 
 import androidx.lifecycle.LiveData
-import com.geekbrains.translator.domain.inteactor.HistoryInteractor
-import com.geekbrains.translator.ui.common.AppState
-import com.geekbrains.translator.ui.common.BaseViewModel
-import com.geekbrains.translator.ui.common.parseLocalSearchResults
+import com.geekbrains.core.ui.BaseViewModel
+import com.geekbrains.model.AppState
+import com.geekbrains.repository.parseLocalSearchResults
+import com.geekbrains.translator.domain.HistoryInteractor
 import kotlinx.coroutines.launch
 
 class HistoryViewModel(
