@@ -3,12 +3,14 @@ package com.geekbrains.translator.ui.view.pages.history
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.geekbrains.core.ui.BaseActivity
+import com.geekbrains.model.AppState
+import com.geekbrains.model.data.DataModel
 import com.geekbrains.translator.databinding.ActivityHistoryBinding
-import com.geekbrains.translator.domain.inteactor.HistoryInteractor
-import com.geekbrains.translator.ui.common.BaseActivity
+import com.geekbrains.translator.domain.HistoryInteractor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HistoryActivity : BaseActivity<com.geekbrains.model.AppState, HistoryInteractor>() {
+class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
 
     private lateinit var binding: ActivityHistoryBinding
     override val viewModel: HistoryViewModel by viewModel()
@@ -39,7 +41,7 @@ class HistoryActivity : BaseActivity<com.geekbrains.model.AppState, HistoryInter
         viewModel.getData(word, false)
     }
 
-    override fun setDataToAdapter(data: List<com.geekbrains.model.data.DataModel>) {
+    override fun setDataToAdapter(data: List<DataModel>) {
         adapter.setData(data)
     }
 

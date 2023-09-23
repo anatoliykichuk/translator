@@ -1,18 +1,18 @@
-package com.geekbrains.translator.ui.common
+package com.geekbrains.core.ui
 
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.geekbrains.core.R
+import com.geekbrains.core.databinding.LoadingLayoutBinding
+import com.geekbrains.core.domain.IInteractor
 import com.geekbrains.model.AppState
 import com.geekbrains.model.data.DataModel
-import com.geekbrains.translator.R
-import com.geekbrains.translator.databinding.LoadingLayoutBinding
-import com.geekbrains.translator.domain.inteactor.IInteractor
 import com.geekbrains.utils.isOnline
 import com.geekbrains.utils.ui.AlertDialogFragment
 
-private const val DIALOG_FRAGMENT_TAG = "c10114f4-fe01-4d74-8619-6c5c8049158b"
+private const val DIALOG_FRAGMENT_TAG = "73762c04-fdda-4da4-b08d-62d563a1d352"
 
 abstract class BaseActivity<T : AppState, I : IInteractor<T>> : AppCompatActivity() {
 

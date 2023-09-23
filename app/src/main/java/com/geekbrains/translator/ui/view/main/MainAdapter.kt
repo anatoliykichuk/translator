@@ -5,17 +5,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.geekbrains.model.data.DataModel
 import com.geekbrains.translator.R
 
 class MainAdapter(
     private var onListItemClickListener: OnListItemClickListener
 ) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
-    private var data: List<com.geekbrains.model.data.DataModel> = arrayListOf()
+    private var data: List<DataModel> = arrayListOf()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(dataItem: com.geekbrains.model.data.DataModel) {
+        fun bind(dataItem: DataModel) {
             if (layoutPosition == RecyclerView.NO_POSITION) {
                 return
             }
@@ -46,16 +47,16 @@ class MainAdapter(
         return data.size
     }
 
-    fun setData(data: List<com.geekbrains.model.data.DataModel>) {
+    fun setData(data: List<DataModel>) {
         this.data = data
         notifyDataSetChanged()
     }
 
-    private fun openInNewWindow(dataItem: com.geekbrains.model.data.DataModel) {
+    private fun openInNewWindow(dataItem: DataModel) {
         onListItemClickListener.onItemClick(dataItem)
     }
 
     interface OnListItemClickListener {
-        fun onItemClick(dataItem: com.geekbrains.model.data.DataModel)
+        fun onItemClick(dataItem: DataModel)
     }
 }

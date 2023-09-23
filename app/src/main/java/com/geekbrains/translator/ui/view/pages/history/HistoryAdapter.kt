@@ -6,20 +6,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.geekbrains.model.data.DataModel
 import com.geekbrains.translator.R
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
-    private var data: List<com.geekbrains.model.data.DataModel> = arrayListOf()
+    private var data: List<DataModel> = arrayListOf()
 
-    fun setData(data: List<com.geekbrains.model.data.DataModel>) {
+    fun setData(data: List<DataModel>) {
         this.data = data
         notifyDataSetChanged()
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(dataItem: com.geekbrains.model.data.DataModel) {
+        fun bind(dataItem: DataModel) {
             if (layoutPosition == RecyclerView.NO_POSITION) {
                 return
             }

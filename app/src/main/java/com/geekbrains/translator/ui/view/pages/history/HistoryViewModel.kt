@@ -1,39 +1,41 @@
 package com.geekbrains.translator.ui.view.pages.history
 
 import androidx.lifecycle.LiveData
-import com.geekbrains.translator.domain.inteactor.HistoryInteractor
-import com.geekbrains.translator.ui.common.BaseViewModel
+import com.geekbrains.core.ui.BaseViewModel
+import com.geekbrains.model.AppState
+import com.geekbrains.repository.parseLocalSearchResults
+import com.geekbrains.translator.domain.HistoryInteractor
 import kotlinx.coroutines.launch
 
 class HistoryViewModel(
     private val interactor: HistoryInteractor
-) : BaseViewModel<com.geekbrains.model.AppState>() {
+) : BaseViewModel<AppState>() {
 
-    private val liveData: LiveData<com.geekbrains.model.AppState> = _livedata
+    private val liveData: LiveData<AppState> = _livedata
 
-    fun subscribe(): LiveData<com.geekbrains.model.AppState> {
+    fun subscribe(): LiveData<AppState> {
         return liveData
     }
 
     override fun getData(word: String, isOnline: Boolean) {
-        _livedata.value = com.geekbrains.model.AppState.Loading(null)
+        _livedata.value = AppState.Loading(null)
         cancelJob()
 
         viewModelCoroutineScope.launch { startInteractor(word, isOnline) }
     }
 
     override fun handleError(error: Throwable) {
-        _livedata.postValue(com.geekbrains.model.AppState.Error(error))
+        _livedata.postValue(AppState.Error(error))
     }
 
     override fun onCleared() {
-        _livedata.value = com.geekbrains.model.AppState.Success(null)
+        _livedata.value = AppState.Success(null)
         super.onCleared()
     }
 
     private suspend fun startInteractor(word: String, isOnline: Boolean) =
         _livedata.postValue(
-            com.geekbrains.repository.parseLocalSearchResults(
+            parseLocalSearchResults(
                 interactor.getData(word, isOnline)
             )
         )
