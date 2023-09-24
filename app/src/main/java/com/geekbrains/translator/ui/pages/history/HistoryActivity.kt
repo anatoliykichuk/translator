@@ -11,13 +11,12 @@ import com.geekbrains.translator.R
 import com.geekbrains.translator.databinding.ActivityHistoryBinding
 import com.geekbrains.translator.domain.HistoryInteractor
 import com.geekbrains.utils.ui.viewById
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
 
 class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
 
     private lateinit var binding: ActivityHistoryBinding
-    override val viewModel: HistoryViewModel by viewModel()
-    //override val viewModel: HistoryViewModel by inject()
+    override val viewModel: HistoryViewModel by inject()
     private val adapter: HistoryAdapter by lazy { HistoryAdapter() }
 
     private val historyListLayout by viewById<RecyclerView>(R.id.history_list_layout)

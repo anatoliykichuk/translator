@@ -17,13 +17,12 @@ import com.geekbrains.translator.ui.pages.description.DescriptionActivity
 import com.geekbrains.translator.ui.pages.history.HistoryActivity
 import com.geekbrains.utils.ui.viewById
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
 
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     private lateinit var binding: ActivityMainBinding
-    //override val viewModel: MainViewModel by inject()
-    override val viewModel: MainViewModel by viewModel()
+    override val viewModel: MainViewModel by inject()
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
 
     private val translationsView by viewById<RecyclerView>(R.id.translations_view)
