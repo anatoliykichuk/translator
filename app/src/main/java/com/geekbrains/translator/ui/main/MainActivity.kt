@@ -17,7 +17,6 @@ import com.geekbrains.translator.ui.pages.description.DescriptionActivity
 import com.geekbrains.translator.ui.pages.history.HistoryActivity
 import com.geekbrains.utils.ui.viewById
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<AppState, MainInteractor>() {

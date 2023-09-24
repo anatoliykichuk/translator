@@ -11,7 +11,6 @@ import com.geekbrains.translator.R
 import com.geekbrains.translator.databinding.ActivityHistoryBinding
 import com.geekbrains.translator.domain.HistoryInteractor
 import com.geekbrains.utils.ui.viewById
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {

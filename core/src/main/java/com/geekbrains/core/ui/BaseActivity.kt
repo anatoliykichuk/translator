@@ -32,7 +32,7 @@ abstract class BaseActivity<T : AppState, I : IInteractor<T>> : AppCompatActivit
 
         binding = LoadingLayoutBinding.inflate(layoutInflater)
 
-        if (isNetworkAvailable && isDialogNull()) {
+        if (!isNetworkAvailable && isDialogNull()) {
             showNoInternetConnectionDialog()
         }
     }
