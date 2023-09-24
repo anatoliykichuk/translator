@@ -1,4 +1,4 @@
-package com.geekbrains.translator.ui.view.pages.description
+package com.geekbrains.translator.ui.pages.description
 
 import android.content.Context
 import android.content.Intent
@@ -6,13 +6,14 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import coil.ImageLoader
 import coil.request.LoadRequest
 import coil.transform.CircleCropTransformation
 import com.geekbrains.translator.R
 import com.geekbrains.translator.databinding.ActivityDescriptionBinding
-import com.geekbrains.utils.isOnline
 import com.geekbrains.utils.ui.AlertDialogFragment
+import com.geekbrains.utils.ui.OnlineLiveData
 
 class DescriptionActivity : AppCompatActivity() {
 
@@ -73,18 +74,23 @@ class DescriptionActivity : AppCompatActivity() {
     }
 
     private fun refreshData() {
-        if (isOnline(applicationContext)) {
-            setData()
-        } else {
-            AlertDialogFragment.newInstance(
-                getString(R.string.dialog_title_device_is_offline),
-                getString(R.string.dialog_message_device_is_offline)
-            ).show(
-                supportFragmentManager,
-                DIALOG_FRAGMENT_TAG
-            )
-            stopRefreshAnimationIfNeeded()
-        }
+        OnlineLiveData(this).observe(
+            this@DescriptionActivity,
+            Observer<Boolean> {
+                if (it) {
+                    setData()
+                } else {
+                    AlertDialogFragment.newInstance(
+                        getString(R.string.dialog_title_device_is_offline),
+                        getString(R.string.dialog_message_device_is_offline)
+                    ).show(
+                        supportFragmentManager,
+                        DIALOG_FRAGMENT_TAG
+                    )
+                    stopRefreshAnimationIfNeeded()
+                }
+            }
+        )
     }
 
     private fun loadPhoto(imageView: ImageView, imageLink: String) {

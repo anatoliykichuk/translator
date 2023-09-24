@@ -1,7 +1,7 @@
 package com.geekbrains.translator.di
 
 import androidx.room.Room
-import com.geekbrains.model.data.DataModel
+import com.geekbrains.model.dto.SearchResultDto
 import com.geekbrains.repository.IRepository
 import com.geekbrains.repository.IRepositoryLocal
 import com.geekbrains.repository.RepositoryLocal
@@ -11,31 +11,35 @@ import com.geekbrains.repository.source.local.RoomClient
 import com.geekbrains.repository.source.remote.RetrofitClient
 import com.geekbrains.translator.domain.HistoryInteractor
 import com.geekbrains.translator.domain.MainInteractor
-import com.geekbrains.translator.ui.view.main.MainViewModel
-import com.geekbrains.translator.ui.view.pages.history.HistoryViewModel
+import com.geekbrains.translator.ui.main.MainActivity
+import com.geekbrains.translator.ui.main.MainViewModel
+import com.geekbrains.translator.ui.pages.history.HistoryActivity
+import com.geekbrains.translator.ui.pages.history.HistoryViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val application = module {
     single { Room.databaseBuilder(get(), HistoryDatabase::class.java, "HistoryDB").build() }
     single { get<HistoryDatabase>().historyDao() }
-    single<IRepositoryLocal<List<DataModel>>> {
-        RepositoryLocal(
-            RoomClient(get())
-        )
+    single<IRepositoryLocal<List<SearchResultDto>>> {
+        RepositoryLocal(RoomClient(get()))
     }
-    single<IRepository<List<DataModel>>> {
-        RepositoryRemote(
-            RetrofitClient()
-        )
+    single<IRepository<List<SearchResultDto>>> {
+        RepositoryRemote(RetrofitClient())
     }
 }
 
 val mainScreen = module {
-    factory { MainInteractor(get(), get()) }
-    factory { MainViewModel(get()) }
+    scope(named<MainActivity>()) {
+        scoped { MainInteractor(get(), get()) }
+        viewModel { MainViewModel(get()) }
+    }
 }
 
 val historyScreen = module {
-    factory { HistoryInteractor(get(), get()) }
-    factory { HistoryViewModel(get()) }
+    scope(named<HistoryActivity>()) {
+        scoped { HistoryInteractor(get(), get()) }
+        viewModel { HistoryViewModel(get()) }
+    }
 }

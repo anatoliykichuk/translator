@@ -1,4 +1,4 @@
-package com.geekbrains.translator.ui.view.pages.history
+package com.geekbrains.translator.ui.pages.history
 
 import androidx.lifecycle.LiveData
 import com.geekbrains.core.ui.BaseViewModel

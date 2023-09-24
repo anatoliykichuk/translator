@@ -3,14 +3,16 @@ package com.geekbrains.core.ui
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.geekbrains.core.R
 import com.geekbrains.core.databinding.LoadingLayoutBinding
 import com.geekbrains.core.domain.IInteractor
 import com.geekbrains.model.AppState
 import com.geekbrains.model.data.DataModel
-import com.geekbrains.utils.isOnline
 import com.geekbrains.utils.ui.AlertDialogFragment
+import com.geekbrains.utils.ui.OnlineLiveData
 
 private const val DIALOG_FRAGMENT_TAG = "73762c04-fdda-4da4-b08d-62d563a1d352"
 
@@ -22,7 +24,7 @@ abstract class BaseActivity<T : AppState, I : IInteractor<T>> : AppCompatActivit
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
-        isNetworkAvailable = isOnline(applicationContext)
+        subscribeToNetworkChange()
     }
 
     override fun onResume() {
@@ -30,8 +32,7 @@ abstract class BaseActivity<T : AppState, I : IInteractor<T>> : AppCompatActivit
 
         binding = LoadingLayoutBinding.inflate(layoutInflater)
 
-        isNetworkAvailable = isOnline(applicationContext)
-        if (isNetworkAvailable && isDialogNull()) {
+        if (!isNetworkAvailable && isDialogNull()) {
             showNoInternetConnectionDialog()
         }
     }
@@ -100,6 +101,23 @@ abstract class BaseActivity<T : AppState, I : IInteractor<T>> : AppCompatActivit
 
     private fun isDialogNull(): Boolean {
         return supportFragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null
+    }
+
+    private fun subscribeToNetworkChange() {
+        OnlineLiveData(this).observe(
+            this@BaseActivity,
+            Observer<Boolean> {
+                isNetworkAvailable = it
+
+                if (!isNetworkAvailable) {
+                    Toast.makeText(
+                        this@BaseActivity,
+                        R.string.dialog_message_device_is_offline,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        )
     }
 
     abstract fun setDataToAdapter(data: List<DataModel>)

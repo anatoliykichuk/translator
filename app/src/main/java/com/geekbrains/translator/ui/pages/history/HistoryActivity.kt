@@ -1,20 +1,25 @@
-package com.geekbrains.translator.ui.view.pages.history
+package com.geekbrains.translator.ui.pages.history
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.recyclerview.widget.RecyclerView
 import com.geekbrains.core.ui.BaseActivity
 import com.geekbrains.model.AppState
 import com.geekbrains.model.data.DataModel
+import com.geekbrains.translator.R
 import com.geekbrains.translator.databinding.ActivityHistoryBinding
 import com.geekbrains.translator.domain.HistoryInteractor
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.geekbrains.utils.ui.viewById
+import org.koin.android.ext.android.inject
 
 class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
 
     private lateinit var binding: ActivityHistoryBinding
-    override val viewModel: HistoryViewModel by viewModel()
+    override val viewModel: HistoryViewModel by inject()
     private val adapter: HistoryAdapter by lazy { HistoryAdapter() }
+
+    private val historyListLayout by viewById<RecyclerView>(R.id.history_list_layout)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +51,7 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
     }
 
     private fun initViewModel() {
-        if (binding.historyListLayout.adapter != null) {
+        if (historyListLayout.adapter != null) {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
 
@@ -56,7 +61,7 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
     }
 
     private fun initViews() {
-        binding.historyListLayout.adapter = adapter
+        historyListLayout.adapter = adapter
     }
 
     companion object {
