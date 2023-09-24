@@ -1,4 +1,4 @@
-package com.geekbrains.translator.ui.view.main
+package com.geekbrains.translator.ui.main
 
 import androidx.lifecycle.LiveData
 import com.geekbrains.core.ui.BaseViewModel

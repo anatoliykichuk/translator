@@ -1,4 +1,4 @@
-package com.geekbrains.translator.ui.view.pages
+package com.geekbrains.translator.ui.pages
 
 import android.os.Bundle
 import android.text.Editable

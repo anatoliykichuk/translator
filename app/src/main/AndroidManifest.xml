@@ -17,13 +17,13 @@
         android:theme="@style/Theme.Translator"
         tools:targetApi="31">
         <activity
-            android:name=".ui.view.pages.history.HistoryActivity"
+            android:name=".ui.pages.history.HistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.pages.description.DescriptionActivity"
+            android:name=".ui.pages.description.DescriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.main.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Translator">

@@ -1,4 +1,4 @@
-package com.geekbrains.translator.ui.view.pages.history
+package com.geekbrains.translator.ui.pages.history
 
 import android.view.LayoutInflater
 import android.view.View

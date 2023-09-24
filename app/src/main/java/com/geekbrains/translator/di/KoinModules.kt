@@ -11,8 +11,12 @@ import com.geekbrains.repository.source.local.RoomClient
 import com.geekbrains.repository.source.remote.RetrofitClient
 import com.geekbrains.translator.domain.HistoryInteractor
 import com.geekbrains.translator.domain.MainInteractor
-import com.geekbrains.translator.ui.view.main.MainViewModel
-import com.geekbrains.translator.ui.view.pages.history.HistoryViewModel
+import com.geekbrains.translator.ui.main.MainActivity
+import com.geekbrains.translator.ui.main.MainViewModel
+import com.geekbrains.translator.ui.pages.history.HistoryActivity
+import com.geekbrains.translator.ui.pages.history.HistoryViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val application = module {
@@ -31,11 +35,21 @@ val application = module {
 }
 
 val mainScreen = module {
+//    scope(named<MainActivity>()) {
+//        scoped { MainInteractor(get(), get()) }
+//        viewModel { MainViewModel(get()) }
+//    }
+
     factory { MainInteractor(get(), get()) }
     factory { MainViewModel(get()) }
 }
 
 val historyScreen = module {
+//    scope(named<HistoryActivity>()) {
+//        scoped { HistoryInteractor(get(), get()) }
+//        viewModel { HistoryViewModel(get()) }
+//    }
+
     factory { HistoryInteractor(get(), get()) }
     factory { HistoryViewModel(get()) }
 }

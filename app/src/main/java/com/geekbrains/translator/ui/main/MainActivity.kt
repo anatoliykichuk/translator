@@ -1,9 +1,10 @@
-package com.geekbrains.translator.ui.view.main
+package com.geekbrains.translator.ui.main
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.geekbrains.core.ui.BaseActivity
 import com.geekbrains.model.AppState
 import com.geekbrains.model.data.DataModel
@@ -11,17 +12,25 @@ import com.geekbrains.repository.convertMeaningsToString
 import com.geekbrains.translator.R
 import com.geekbrains.translator.databinding.ActivityMainBinding
 import com.geekbrains.translator.domain.MainInteractor
-import com.geekbrains.translator.ui.view.pages.SearchDialogFragment
-import com.geekbrains.translator.ui.view.pages.description.DescriptionActivity
-import com.geekbrains.translator.ui.view.pages.history.HistoryActivity
-import com.geekbrains.utils.isOnline
+import com.geekbrains.translator.ui.pages.SearchDialogFragment
+import com.geekbrains.translator.ui.pages.description.DescriptionActivity
+import com.geekbrains.translator.ui.pages.history.HistoryActivity
+import com.geekbrains.utils.ui.viewById
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     private lateinit var binding: ActivityMainBinding
+    //override val viewModel: MainViewModel by inject()
     override val viewModel: MainViewModel by viewModel()
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
+
+    private val translationsView by viewById<RecyclerView>(R.id.translations_view)
+    private val openSearchDialogButton by viewById<FloatingActionButton>(
+        R.id.open_search_dialog_button
+    )
 
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
@@ -69,7 +78,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     }
 
     private fun initViewModel() {
-        if (binding.translations.adapter != null) {
+        if (translationsView.adapter != null) {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
 
@@ -81,19 +90,17 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     private fun initViews() {
         initSearchClickListener()
 
-        binding.translations.layoutManager = LinearLayoutManager(applicationContext)
-        binding.translations.adapter = adapter
+        translationsView.layoutManager = LinearLayoutManager(applicationContext)
+        translationsView.adapter = adapter
     }
 
     private fun initSearchClickListener() {
-        binding.openSearchDialogButton.setOnClickListener {
+        openSearchDialogButton.setOnClickListener {
             val searchDialogFragment = SearchDialogFragment.newInstance()
 
             searchDialogFragment.setOnSearchClickListener(
                 object : SearchDialogFragment.OnSearchClickListener {
                     override fun onClick(word: String, fromRemoteSource: Boolean) {
-                        isNetworkAvailable = isOnline(applicationContext)
-
                         if (!fromRemoteSource) {
                             showDataFromHistory(word)
 
