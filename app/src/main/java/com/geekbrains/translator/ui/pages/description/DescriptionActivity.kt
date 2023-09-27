@@ -2,9 +2,13 @@ package com.geekbrains.translator.ui.pages.description
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.RenderEffect
+import android.graphics.Shader
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import coil.ImageLoader
@@ -21,6 +25,7 @@ class DescriptionActivity : AppCompatActivity() {
     private val binding
         get() = _binding!!
 
+    @RequiresApi(31)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,6 +63,7 @@ class DescriptionActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(31)
     private fun setData() {
         val bundle = intent.extras
 
@@ -73,6 +79,7 @@ class DescriptionActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(31)
     private fun refreshData() {
         OnlineLiveData(this).observe(
             this@DescriptionActivity,
@@ -93,12 +100,22 @@ class DescriptionActivity : AppCompatActivity() {
         )
     }
 
+    @RequiresApi(31)
     private fun loadPhoto(imageView: ImageView, imageLink: String) {
         val request = LoadRequest.Builder(this)
             .data("https:$imageLink")
             .target(
                 onStart = {},
-                onSuccess = { result -> imageView.setImageDrawable(result) },
+                onSuccess = { result ->
+                    imageView.setImageDrawable(result)
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        val blurEffect = RenderEffect.createBlurEffect(
+                            15f, 0f, Shader.TileMode.MIRROR
+                        )
+                        binding.root.setRenderEffect(blurEffect)
+                    }
+                },
                 onError = { imageView.setImageResource(R.drawable.ic_error) }
             )
             .transformations(CircleCropTransformation())

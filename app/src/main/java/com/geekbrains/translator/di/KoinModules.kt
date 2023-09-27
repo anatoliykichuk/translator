@@ -31,15 +31,21 @@ val application = module {
 }
 
 val mainScreen = module {
-    scope(named<MainActivity>()) {
-        scoped { MainInteractor(get(), get()) }
-        viewModel { MainViewModel(get()) }
-    }
+//    scope(named<MainActivity>()) {
+//        scoped { MainInteractor(get(), get()) }
+//        viewModel { MainViewModel(get()) }
+//    }
+
+    factory { MainInteractor(get(), get()) }
+    factory { MainViewModel(get()) }
 }
 
 val historyScreen = module {
-    scope(named<HistoryActivity>()) {
-        scoped { HistoryInteractor(get(), get()) }
-        viewModel { HistoryViewModel(get()) }
-    }
+//    scope(named<HistoryActivity>()) {
+//        scoped { HistoryInteractor(get(), get()) }
+//        viewModel { HistoryViewModel(get()) }
+//    }
+
+    factory { HistoryInteractor(get(), get()) }
+    factory { HistoryViewModel(get()) }
 }
